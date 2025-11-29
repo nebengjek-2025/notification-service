@@ -18,3 +18,14 @@ type InboxNotificationResponse struct {
 	UserID        string             `json:"user_id"`
 	Notifications []NotificationItem `json:"notifications"`
 }
+
+type OrderNotificationMessage struct {
+	DriverID    string `json:"driverId"`
+	PassengerID string `json:"passangerId"`
+	OrderID     string `json:"orderId"`
+}
+
+type OrderNotificationEvent struct {
+	ID      string                   `json:"id"`
+	Message OrderNotificationMessage `json:"message"`
+}

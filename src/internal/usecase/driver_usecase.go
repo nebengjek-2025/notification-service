@@ -18,7 +18,6 @@ import (
 type DriverUseCase struct {
 	Log                    log.Log
 	UserRepository         *repository.UserRepository
-	WalletRepository       *repository.WalletRepository
 	OrderRepository        *repository.OrderRepository
 	DriverRepository       *repository.DriverRepository
 	NotificationRepository *repository.NotificationRepository
@@ -31,7 +30,6 @@ func NewDriverUseCase(
 	userRepository *repository.UserRepository,
 	driverRepository *repository.DriverRepository,
 	orderRepository *repository.OrderRepository,
-	walletRepository *repository.WalletRepository,
 	notificationRepo *repository.NotificationRepository,
 	redisClient redis.UniversalClient,
 ) *DriverUseCase {
@@ -40,7 +38,6 @@ func NewDriverUseCase(
 		UserRepository:         userRepository,
 		DriverRepository:       driverRepository,
 		OrderRepository:        orderRepository,
-		WalletRepository:       walletRepository,
 		NotificationRepository: notificationRepo,
 		Redis:                  redisClient,
 	}

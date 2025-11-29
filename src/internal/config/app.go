@@ -31,7 +31,6 @@ type BootstrapConfig struct {
 func Bootstrap(config *BootstrapConfig) {
 	// setup repositories
 	userRepository := repository.NewUserRepository(config.DB)
-	walletRepository := repository.NewWalletRepository(config.DB)
 	notificationRepository := repository.NewNotificationRepository(config.DB)
 	orderRepository := repository.NewOrderRepository(config.DB)
 
@@ -39,7 +38,6 @@ func Bootstrap(config *BootstrapConfig) {
 	passangerUseCase := usecase.NewPassengerUseCase(
 		config.Log,
 		userRepository,
-		walletRepository,
 		notificationRepository,
 		orderRepository,
 		config.Redis,
