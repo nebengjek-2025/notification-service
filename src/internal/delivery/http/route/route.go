@@ -25,4 +25,5 @@ func (c *RouteConfig) Setup() {
 func (c *RouteConfig) SetupAuthRoute() {
 	c.App.Use(c.AuthMiddleware)
 	c.App.Get("/users/v1/inbox", c.PassangerController.GetInboxNotification)
+	c.App.Post("/inbox/v1/read", c.PassangerController.ReadNotification)
 }

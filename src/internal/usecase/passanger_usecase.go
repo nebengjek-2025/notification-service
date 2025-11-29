@@ -78,6 +78,43 @@ func (uc *PassengerUseCase) GetInboxNotification(ctx context.Context, request *m
 	return result
 }
 
+func (uc *PassengerUseCase) ReadNotification(ctx context.Context, request *model.ReadNotificationRequest) utils.Result {
+	var result utils.Result
+	fmt.Println(request)
+	if request == nil || request.NotificationID == "" || request.UserID == "" {
+		errObj := httpError.NewBadRequest()
+		errObj.Message = "notification_id and user_id are required"
+		result.Error = errObj
+		uc.log.Error("passenger-usecase", errObj.Message, "ReadNotification", "")
+		return result
+	}
+
+	err := uc.NotificationRepository.MarkAsRead(ctx, request.NotificationID, request.UserID)
+	if err != nil {
+		errObj := httpError.NewInternalServerError()
+		errObj.Message = fmt.Sprintf("Failed to mark notification as read: %v", err)
+		result.Error = errObj
+		uc.log.Error("passenger-usecase", errObj.Message, "ReadNotification", utils.ConvertString(err))
+		return result
+	}
+
+	response := map[string]interface{}{
+		"notification_id": request.NotificationID,
+		"user_id":         request.UserID,
+		"is_read":         true,
+		"read_at":         time.Now(),
+	}
+
+	result.Data = response
+	uc.log.Info("passenger-usecase",
+		fmt.Sprintf("Notification %s marked as read for user %s", request.NotificationID, request.UserID),
+		"ReadNotification",
+		"",
+	)
+
+	return result
+}
+
 func (uc *PassengerUseCase) SendNotificationPassanger(ctx context.Context, req *model.NotificationUser) error {
 	uc.log.Info(
 		"passenger-usecase",

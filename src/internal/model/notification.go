@@ -29,3 +29,8 @@ type OrderNotificationEvent struct {
 	ID      string                   `json:"id"`
 	Message OrderNotificationMessage `json:"message"`
 }
+
+type ReadNotificationRequest struct {
+	NotificationID string `json:"notification_id"`
+	UserID         string `json:"user_id"`
+}

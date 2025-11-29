@@ -35,3 +35,20 @@ func (c *PassangerController) GetInboxNotification(ctx *fiber.Ctx) error {
 
 	return utils.Response(result.Data, "GetInboxNotification", fiber.StatusOK, ctx)
 }
+
+func (c *PassangerController) ReadNotification(ctx *fiber.Ctx) error {
+	auth := middleware.GetUser(ctx)
+
+	request := new(model.ReadNotificationRequest)
+	request.UserID = auth.UserID
+	if err := ctx.BodyParser(request); err != nil {
+		c.Log.Error("Controller.ReadNotification", "Failed to parse request body", "error", err.Error())
+		return utils.ResponseError(err, ctx)
+	}
+	result := c.UseCase.ReadNotification(ctx.Context(), request)
+	if result.Error != nil {
+		return utils.ResponseError(result.Error, ctx)
+	}
+
+	return utils.Response(result.Data, "GetInboxNotification", fiber.StatusOK, ctx)
+}

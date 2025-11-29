@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"notification-service/src/internal/entity"
 	"notification-service/src/pkg/databases/mysql"
 )
@@ -53,6 +54,32 @@ func (r *NotificationRepository) GetInboxNotifications(ctx context.Context, user
 	}
 
 	return notifications, nil
+}
+
+func (r *NotificationRepository) MarkAsRead(ctx context.Context, notificationID, userID string) error {
+	db, err := r.DB.GetDB()
+	if err != nil {
+		return err
+	}
+
+	query := `
+		UPDATE notifications
+		SET is_read = 1,
+			read_at = NOW()
+		WHERE notification_id = ? AND user_id = ?
+	`
+
+	result, err := db.ExecContext(ctx, query, notificationID, userID)
+	if err != nil {
+		return err
+	}
+
+	rows, err := result.RowsAffected()
+	if err == nil && rows == 0 {
+		return fmt.Errorf("notification not found or already read")
+	}
+
+	return nil
 }
 
 func (r *NotificationRepository) SaveNotification(ctx context.Context, notif entity.Notification) error {
