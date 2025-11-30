@@ -184,6 +184,7 @@ func (uc *PassengerUseCase) SendNotificationPassanger(ctx context.Context, req *
 		)
 		priority = "HIGH"
 
+	case "ORDER_COMPLETED":
 	default:
 		uc.log.Error(
 			"passenger-usecase",

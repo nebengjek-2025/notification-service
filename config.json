@@ -1,10 +1,10 @@
 {
   "app": {
-    "name": "order-service"
+    "name": "notification-service"
   },
   "web": {
     "prefork": false,
-    "port": 3000
+    "port": 5000
   },
   "log": {
     "level": 6
