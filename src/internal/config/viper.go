@@ -17,7 +17,7 @@ var (
 func NewViper() *viper.Viper {
 	once.Do(func() {
 		c := viper.New()
-		if raw := os.Getenv("ORDER_CONFIG_JSON"); raw != "" {
+		if raw := os.Getenv("NOTIFICATION_CONFIG_JSON"); raw != "" {
 			c.SetConfigType("json")
 			if err := c.ReadConfig(strings.NewReader(raw)); err != nil {
 				panic(fmt.Errorf("failed to read config from ORDER_CONFIG_JSON: %w", err))
