@@ -35,7 +35,7 @@ COPY --from=builder /app/notification-service ./notification-service
 
 ENV TZ=Asia/Jakarta
 
-EXPOSE 8080
+EXPOSE 9000
 
 USER appuser
 
